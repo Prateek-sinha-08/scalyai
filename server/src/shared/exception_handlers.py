@@ -8,7 +8,7 @@ from shared.logger import get_scaly_logger
 logger = get_scaly_logger(name=__name__)
 
 
-async def handle_api_exception(request: Request, exc: BaseAppException):
+async def handle_api_exception(_request: Request, exc: BaseAppException):
     logger.error(f"Exception API: {exc.message} - {exc.status_code}")
     return JSONResponse(
         status_code=exc.status_code,
@@ -16,7 +16,7 @@ async def handle_api_exception(request: Request, exc: BaseAppException):
     )
 
 
-async def handle_api_generic_exception(request: Request, exc: Exception):
+async def handle_api_generic_exception(_request: Request, exc: Exception):
     logger.error(f"Exception Generic: {exc} - {type(exc)}")
     return JSONResponse(
         status_code=500,
@@ -24,7 +24,7 @@ async def handle_api_generic_exception(request: Request, exc: Exception):
     )
 
 
-async def handle_api_database_exception(request: Request, exc: SQLAlchemyError):
+async def handle_api_database_exception(_request: Request, exc: SQLAlchemyError):
     logger.error(f"Database Exception: {exc} - {type(exc)}")
     return JSONResponse(
         status_code=500,
