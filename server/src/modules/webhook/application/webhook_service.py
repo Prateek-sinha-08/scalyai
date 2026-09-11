@@ -23,6 +23,7 @@ class WebhookIngestionService:
     async def ingest(self, event: WebhookEventDTO):
         if await self.cache_repo.is_duplicate(event.event_id):
             logger.info(f"Event {event.event_id} is a duplicate, skipping ingestion")
+            await self.event_repo.update_event_status(event.event_id, WebhookEventStatus.SKIPPED)
             return
         logger.info(f"Ingesting event: {event.event_id} {event.type}")
         event_obj = WebhookEvent(

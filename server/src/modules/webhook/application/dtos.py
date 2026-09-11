@@ -10,6 +10,7 @@ class WebhookEventStatus(str, Enum):
     PROCESSING = "processing"
     COMPLETED = "completed"
     FAILED = "failed"
+    SKIPPED = "skipped"
 
 
 class WebhookEventDTO(BaseModel):
