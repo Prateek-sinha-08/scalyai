@@ -1,9 +1,36 @@
+from dataclasses import dataclass
 from datetime import datetime
-from typing import Optional
+from typing import BinaryIO, Optional
 
 from pydantic import BaseModel, Field
 
 from modules.business.domain.entities import BusinessUserRole
+
+
+@dataclass(frozen=True)
+class AcceptBusinessDocumentCommand:
+    user_id: int
+    filename: str | None
+    content_type: str | None
+    size_bytes: int
+    content: BinaryIO
+    content_header: bytes
+
+
+class BusinessDocumentResponseDTO(BaseModel):
+    document_id: int = Field(..., description="Database identifier for the document")
+    storage_public_id: str = Field(
+        ..., description="External storage public identifier for the document"
+    )
+    file_url: str = Field(..., description="URL to access the stored document")
+    original_filename: str = Field(..., description="Original uploaded filename")
+
+
+class BusinessDocumentDraftListItemDTO(BaseModel):
+    document_id: int = Field(..., description="Database identifier for the document")
+    original_filename: str = Field(..., description="Original uploaded filename")
+    size_bytes: int = Field(..., description="File size in bytes")
+    created_at: datetime = Field(..., description="When the draft was created")
 
 
 class BusinessUserDTO(BaseModel):

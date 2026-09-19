@@ -1,7 +1,11 @@
 from abc import ABC, abstractmethod
 from typing import List, Optional, Tuple
 
-from modules.business.domain.entities import Business, BusinessUserMapping
+from modules.business.domain.entities import (
+    Business,
+    BusinessDocument,
+    BusinessUserMapping,
+)
 from modules.user.domain.entity import User
 
 
@@ -54,4 +58,30 @@ class IBusinessMemberRepository(ABC):
 
     @abstractmethod
     async def delete(self, business_member: BusinessUserMapping) -> None:
+        pass
+
+
+class IBusinessDocumentRepository(ABC):
+    @abstractmethod
+    async def create(self, document: BusinessDocument) -> BusinessDocument:
+        pass
+
+    @abstractmethod
+    async def get_by_id(self, document_id: int) -> Optional[BusinessDocument]:
+        pass
+
+    @abstractmethod
+    async def get_by_id_for_user(
+        self, document_id: int, user_id: int
+    ) -> Optional[BusinessDocument]:
+        pass
+
+    @abstractmethod
+    async def list_drafts_for_user(self, user_id: int) -> List[BusinessDocument]:
+        pass
+
+    @abstractmethod
+    async def delete_draft(
+        self, document_id: int, user_id: int
+    ) -> BusinessDocument:
         pass

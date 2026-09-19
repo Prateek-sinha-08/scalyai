@@ -1,6 +1,17 @@
+from config.settings import cloudinary_config
+from modules.business.application.business_document_service import (
+    BusinessDocumentService,
+)
 from modules.business.application.business_service import BusinessService
 from modules.business.application.member_service import BusinessMemberService
+from modules.business.domain.utils.document_policy import DocumentPolicy
+from modules.business.infrastructure.business_document_repository import (
+    BusinessDocumentRepository,
+)
 from modules.business.infrastructure.business_repository import BusinessRepository
+from modules.business.infrastructure.cloudinary_document_storage import (
+    CloudinaryDocumentStorage,
+)
 from modules.business.infrastructure.member_repository import BusinessMemberRepository
 from modules.invitation.application.invitation_service import BusinessInviteService
 from modules.invitation.infrastructure.invitation_repository import (
@@ -25,6 +36,9 @@ class InfrastructureUnitOfWork(BaseUnitOfWork):
         self._business_service: BusinessService | None = None
         self._business_member_service: BusinessMemberService | None = None
         self._invitation_service: BusinessInviteService | None = None
+        self._business_document_repo: BusinessDocumentRepository | None = None
+        self._business_document_service: BusinessDocumentService | None = None
+        self._cloudinary_document_storage: CloudinaryDocumentStorage | None = None
         self._notification_service: NotificationService | None = None
 
     @property
@@ -88,3 +102,30 @@ class InfrastructureUnitOfWork(BaseUnitOfWork):
                 notification_send_service=self.notification_service,
             )
         return self._invitation_service
+
+    @property
+    def business_document_repo(self) -> BusinessDocumentRepository:
+        if self._business_document_repo is None:
+            self._business_document_repo = BusinessDocumentRepository(db=self.session)
+        return self._business_document_repo
+
+    @property
+    def _document_storage(self) -> CloudinaryDocumentStorage:
+        if self._cloudinary_document_storage is None:
+            self._cloudinary_document_storage = CloudinaryDocumentStorage(
+                cloud_name=cloudinary_config.CLOUDINARY_CLOUD_NAME,
+                api_key=cloudinary_config.CLOUDINARY_API_KEY,
+                api_secret=cloudinary_config.CLOUDINARY_API_SECRET,
+                folder_prefix=cloudinary_config.CLOUDINARY_FOLDER_PREFIX,
+            )
+        return self._cloudinary_document_storage
+
+    @property
+    def business_document_service(self) -> BusinessDocumentService:
+        if self._business_document_service is None:
+            self._business_document_service = BusinessDocumentService(
+                document_policy=DocumentPolicy(),
+                storage=self._document_storage,
+                document_repo=self.business_document_repo,
+            )
+        return self._business_document_service

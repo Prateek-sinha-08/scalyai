@@ -68,6 +68,11 @@ db = Database()
 
 
 async def init_db():
+    import modules.business.domain.entities  # noqa: F401
+    import modules.invitation.domain.entity  # noqa: F401
+    import modules.notification.domain.entity  # noqa: F401
+    import modules.user.domain.entity  # noqa: F401
+    import modules.webhook.domain.entity  # noqa: F401
     from shared.base_entity import Base
 
     try:

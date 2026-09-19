@@ -5,6 +5,7 @@ from sqlalchemy import (
     DateTime,
     Enum,
     ForeignKey,
+    Integer,
     PrimaryKeyConstraint,
     String,
     Text,
@@ -70,3 +71,23 @@ class BusinessUserMapping(Base):
     )
 
     __table_args__ = (PrimaryKeyConstraint("user_id", "business_id"),)
+
+
+class BusinessDocument(BaseModelMixin, Base):
+    __tablename__ = "business_documents"
+
+    user_id: Mapped[int] = mapped_column(
+        ForeignKey("users.id", ondelete="CASCADE"), nullable=False, index=True
+    )
+    business_id: Mapped[int | None] = mapped_column(
+        ForeignKey("businesses.id", ondelete="SET NULL"), nullable=True, index=True
+    )
+
+    original_filename: Mapped[str] = mapped_column(String(255), nullable=False)
+    content_type: Mapped[str] = mapped_column(String(100), nullable=False)
+    size_bytes: Mapped[int] = mapped_column(Integer, nullable=False)
+
+    storage_public_id: Mapped[str] = mapped_column(
+        String(512), nullable=False, unique=True, index=True
+    )
+    file_url: Mapped[str] = mapped_column(Text, nullable=False)

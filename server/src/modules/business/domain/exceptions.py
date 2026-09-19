@@ -107,3 +107,48 @@ class BusinessMemberUpdateFailedException(BaseAppException):
         status_code: int = 500,
     ):
         super().__init__(message, status_code)
+
+
+class InvalidBusinessDocumentException(BaseAppException):
+    def __init__(
+        self,
+        message: str = "Invalid business document",
+        status_code: int = 400,
+    ):
+        super().__init__(message, status_code)
+
+
+class BusinessDocumentStorageFailedException(BaseAppException):
+    def __init__(
+        self,
+        message: str = "Failed to store business document",
+        status_code: int = 502,
+    ):
+        super().__init__(message, status_code)
+
+
+class BusinessDocumentNotFoundException(BaseAppException):
+    def __init__(
+        self,
+        message: str = "Business document not found",
+        status_code: int = 404,
+    ):
+        super().__init__(message, status_code)
+
+
+class BusinessDocumentAccessDeniedException(BaseAppException):
+    def __init__(
+        self,
+        message: str = "You are not allowed to access this business document",
+        status_code: int = 403,
+    ):
+        super().__init__(message, status_code)
+
+
+class BusinessDocumentNotDraftException(BaseAppException):
+    def __init__(
+        self,
+        message: str = "Only draft business documents can be deleted",
+        status_code: int = 409,
+    ):
+        super().__init__(message, status_code)
