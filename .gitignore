@@ -7,6 +7,8 @@ node_modules/
 
 # Python virtual environments
 server/.venv/
+*.egg-info/
+*.egg
 backend/.venv/
 
 # Python bytecode
@@ -32,3 +34,11 @@ backend/.langgraph_api/
 
 # PDF files
 *.pdf
+
+
+# Skills and Agent Rules
+AGENTS.md
+.agents/**
+.cursor/**
+.claude/**
+skills-lock.json
