@@ -1,5 +1,6 @@
-from dotenv import load_dotenv
 import os
+
+from dotenv import load_dotenv
 
 load_dotenv()
 
@@ -37,8 +38,20 @@ class TaskIQConfig:
         self.TASKIQ_RESULT_BACKEND = os.getenv("TASKIQ_RESULT_BACKEND", "")
         self.TASKIQ_BACKEND_TTL=int(os.getenv("TASKIQ_BACKEND_TTL", "3600"))
 
+
+class CloudinaryConfig:
+    def __init__(self) -> None:
+        self.CLOUDINARY_CLOUD_NAME = os.getenv("CLOUDINARY_CLOUD_NAME", "")
+        self.CLOUDINARY_API_KEY = os.getenv("CLOUDINARY_API_KEY", "")
+        self.CLOUDINARY_API_SECRET = os.getenv("CLOUDINARY_API_SECRET", "")
+        self.CLOUDINARY_FOLDER_PREFIX = os.getenv(
+            "CLOUDINARY_FOLDER_PREFIX", "scaly_ai/business_docs"
+        )
+
+
 database_config = DatabaseConfig()
 redis_config = RedisConfig()
 clerk_config = ClerkConfig()
 security_config = SecurityConfig()
 taskiq_config = TaskIQConfig()
+cloudinary_config = CloudinaryConfig()
