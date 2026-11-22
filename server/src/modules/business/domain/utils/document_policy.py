@@ -30,31 +30,6 @@ class DocumentPolicy:
     def __init__(self, config: DocumentPolicyConfig | None = None) -> None:
         self._config = config or DocumentPolicyConfig()
 
-    def validate_for_acceptance(
-        self,
-        *,
-        filename: str | None,
-        content_type: str | None,
-        size_bytes: int,
-        content_header: bytes | None = None,
-    ) -> SanitizedDocumentMetadata:
-        normalized_filename = self.normalize_filename(filename)
-        self._validate_filename_present(normalized_filename)
-        self._validate_filename_length(normalized_filename)
-        self._validate_no_path_traversal(normalized_filename)
-        self._validate_extension(normalized_filename)
-        self._validate_content_type(content_type)
-        self._validate_size(size_bytes)
-        self._validate_pdf_signature(content_header)
-
-        sanitized_original = self.sanitize_filename(normalized_filename)
-        storage_filename = self.build_storage_filename(sanitized_original)
-
-        return SanitizedDocumentMetadata(
-            original_filename=sanitized_original,
-            storage_filename=storage_filename,
-        )
-
     def sanitize_filename(self, filename: str) -> str:
         basename = PurePath(filename).name.strip()
 
@@ -118,3 +93,26 @@ class DocumentPolicy:
 
         if not content_header or not content_header.startswith(PDF_MAGIC_BYTES):
             raise InvalidBusinessDocumentException("File is not a valid PDF")
+
+    @property
+    def max_size_bytes(self) -> int:
+        return self._config.max_size_bytes
+
+    def validate_upload_intent(
+        self,
+        *,
+        filename: str | None,
+        content_type: str | None,
+        size_bytes: int,
+    ) -> SanitizedDocumentMetadata:
+        normalized = self.normalize_filename(filename)
+        self._validate_filename_present(normalized)
+        self._validate_filename_length(normalized)
+        self._validate_no_path_traversal(normalized)
+        self._validate_extension(normalized)
+        self._validate_content_type(content_type)
+        self._validate_size(size_bytes)
+        return SanitizedDocumentMetadata(
+            original_filename=normalized,
+            storage_filename=self.build_storage_filename(normalized),
+        )

@@ -145,10 +145,46 @@ class BusinessDocumentAccessDeniedException(BaseAppException):
         super().__init__(message, status_code)
 
 
-class BusinessDocumentNotDraftException(BaseAppException):
+class UploadSessionNotFoundException(BaseAppException):
     def __init__(
         self,
-        message: str = "Only draft business documents can be deleted",
+        message: str = "Upload session not found",
+        status_code: int = 404,
+    ):
+        super().__init__(message, status_code)
+
+
+class UploadSessionExpiredException(BaseAppException):
+    def __init__(
+        self,
+        message: str = "Upload session has expired",
+        status_code: int = 410,
+    ):
+        super().__init__(message, status_code)
+
+
+class UploadSessionNotOpenException(BaseAppException):
+    def __init__(
+        self,
+        message: str = "Upload session is not open",
+        status_code: int = 409,
+    ):
+        super().__init__(message, status_code)
+
+
+class UploadSlotNotFoundException(BaseAppException):
+    def __init__(
+        self,
+        message: str = "Upload slot not found",
+        status_code: int = 404,
+    ):
+        super().__init__(message, status_code)
+
+
+class IncompleteUploadException(BaseAppException):
+    def __init__(
+        self,
+        message: str = "Not all files have been uploaded",
         status_code: int = 409,
     ):
         super().__init__(message, status_code)

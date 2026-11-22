@@ -49,9 +49,22 @@ class CloudinaryConfig:
         )
 
 
+class StorageConfig:
+    def __init__(self) -> None:
+        self.FILE_STORAGE_ROOT = os.getenv("FILE_STORAGE_ROOT", "storage")
+        self.APP_BASE_URL = os.getenv("APP_BASE_URL", "http://localhost:8000")
+        self.UPLOAD_SESSION_TTL_SECONDS = int(
+            os.getenv("UPLOAD_SESSION_TTL_SECONDS", "3600")
+        )
+        self.MAX_FILES_PER_UPLOAD_SESSION = int(
+            os.getenv("MAX_FILES_PER_UPLOAD_SESSION", "10")
+        )
+
+
 database_config = DatabaseConfig()
 redis_config = RedisConfig()
 clerk_config = ClerkConfig()
 security_config = SecurityConfig()
 taskiq_config = TaskIQConfig()
 cloudinary_config = CloudinaryConfig()
+storage_config = StorageConfig()

@@ -1,18 +1,20 @@
-from config.settings import cloudinary_config
+from config.settings import storage_config
 from modules.business.application.business_document_service import (
     BusinessDocumentService,
 )
 from modules.business.application.business_service import BusinessService
+from modules.business.application.business_upload_service import BusinessUploadService
 from modules.business.application.member_service import BusinessMemberService
 from modules.business.domain.utils.document_policy import DocumentPolicy
 from modules.business.infrastructure.business_document_repository import (
     BusinessDocumentRepository,
 )
 from modules.business.infrastructure.business_repository import BusinessRepository
-from modules.business.infrastructure.cloudinary_document_storage import (
-    CloudinaryDocumentStorage,
-)
 from modules.business.infrastructure.member_repository import BusinessMemberRepository
+from modules.business.infrastructure.upload_session_repository import (
+    UploadSessionRepository,
+)
+from config.storage import build_local_file_storage_client
 from modules.invitation.application.invitation_service import BusinessInviteService
 from modules.invitation.infrastructure.invitation_repository import (
     InvitationsRepository,
@@ -23,6 +25,7 @@ from modules.notification.infrastructure.notification_repository import (
 )
 from modules.user.application.user_service import UserService
 from modules.user.infrastructure.user_repository import UserRepository
+from shared.infrastructure.storage.clients.local_file_client import LocalFileStorageClient
 from shared.uow import BaseUnitOfWork
 
 
@@ -37,8 +40,11 @@ class InfrastructureUnitOfWork(BaseUnitOfWork):
         self._business_member_service: BusinessMemberService | None = None
         self._invitation_service: BusinessInviteService | None = None
         self._business_document_repo: BusinessDocumentRepository | None = None
+        self._upload_session_repo: UploadSessionRepository | None = None
         self._business_document_service: BusinessDocumentService | None = None
-        self._cloudinary_document_storage: CloudinaryDocumentStorage | None = None
+        self._business_upload_service: BusinessUploadService | None = None
+        self._local_file_storage: LocalFileStorageClient | None = None
+        self._document_policy: DocumentPolicy | None = None
         self._notification_service: NotificationService | None = None
 
     @property
@@ -110,22 +116,40 @@ class InfrastructureUnitOfWork(BaseUnitOfWork):
         return self._business_document_repo
 
     @property
-    def _document_storage(self) -> CloudinaryDocumentStorage:
-        if self._cloudinary_document_storage is None:
-            self._cloudinary_document_storage = CloudinaryDocumentStorage(
-                cloud_name=cloudinary_config.CLOUDINARY_CLOUD_NAME,
-                api_key=cloudinary_config.CLOUDINARY_API_KEY,
-                api_secret=cloudinary_config.CLOUDINARY_API_SECRET,
-                folder_prefix=cloudinary_config.CLOUDINARY_FOLDER_PREFIX,
-            )
-        return self._cloudinary_document_storage
+    def upload_session_repo(self) -> UploadSessionRepository:
+        if self._upload_session_repo is None:
+            self._upload_session_repo = UploadSessionRepository(db=self.session)
+        return self._upload_session_repo
+
+    @property
+    def local_file_storage(self) -> LocalFileStorageClient:
+        if self._local_file_storage is None:
+            self._local_file_storage = build_local_file_storage_client()
+        return self._local_file_storage
+
+    @property
+    def document_policy(self) -> DocumentPolicy:
+        if self._document_policy is None:
+            self._document_policy = DocumentPolicy()
+        return self._document_policy
 
     @property
     def business_document_service(self) -> BusinessDocumentService:
         if self._business_document_service is None:
             self._business_document_service = BusinessDocumentService(
-                document_policy=DocumentPolicy(),
-                storage=self._document_storage,
                 document_repo=self.business_document_repo,
             )
         return self._business_document_service
+
+    @property
+    def business_upload_service(self) -> BusinessUploadService:
+        if self._business_upload_service is None:
+            self._business_upload_service = BusinessUploadService(
+                upload_repo=self.upload_session_repo,
+                document_repo=self.business_document_repo,
+                document_policy=self.document_policy,
+                storage_client=self.local_file_storage,
+                upload_session_ttl_seconds=storage_config.UPLOAD_SESSION_TTL_SECONDS,
+                max_files_per_session=storage_config.MAX_FILES_PER_UPLOAD_SESSION,
+            )
+        return self._business_upload_service

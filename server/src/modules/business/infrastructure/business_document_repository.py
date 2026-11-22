@@ -5,10 +5,7 @@ from sqlalchemy.exc import IntegrityError
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from modules.business.domain.entities import BusinessDocument
-from modules.business.domain.exceptions import (
-    BusinessDocumentNotDraftException,
-    BusinessDocumentNotFoundException,
-)
+from modules.business.domain.exceptions import BusinessDocumentNotFoundException
 from modules.business.domain.repository_interface import IBusinessDocumentRepository
 from shared.logger import get_scaly_logger
 
@@ -44,27 +41,23 @@ class BusinessDocumentRepository(IBusinessDocumentRepository):
         result = await self.db.execute(stmt)
         return result.scalar_one_or_none()
 
-    async def list_drafts_for_user(self, user_id: int) -> list[BusinessDocument]:
-        stmt = (
-            select(BusinessDocument)
-            .where(
-                BusinessDocument.user_id == user_id,
-                BusinessDocument.business_id.is_(None),
-            )
-            .order_by(BusinessDocument.created_at.desc())
+    async def get_by_user_business(self, user_id: int, business_id: int) -> Optional[BusinessDocument]:
+        stmt = select(BusinessDocument).where(
+            BusinessDocument.user_id == user_id,
+            BusinessDocument.business_id == business_id,
+        )
+        result = await self.db.execute(stmt)
+        return result.scalar_one_or_none()
+
+    async def list_by_storage_public_ids_for_user(
+        self, user_id: int, storage_public_ids: list[str]
+    ) -> list[BusinessDocument]:
+        if not storage_public_ids:
+            return []
+
+        stmt = select(BusinessDocument).where(
+            BusinessDocument.user_id == user_id,
+            BusinessDocument.storage_public_id.in_(storage_public_ids),
         )
         result = await self.db.execute(stmt)
         return list(result.scalars().all())
-
-    async def delete_draft(
-        self, document_id: int, user_id: int
-    ) -> BusinessDocument:
-        document = await self.get_by_id_for_user(document_id, user_id)
-        if document is None:
-            raise BusinessDocumentNotFoundException()
-        if document.business_id is not None:
-            raise BusinessDocumentNotDraftException()
-
-        await self.db.delete(document)
-        await self.db.flush()
-        return document

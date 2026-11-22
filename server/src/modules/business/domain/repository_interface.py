@@ -1,10 +1,14 @@
 from abc import ABC, abstractmethod
 from typing import List, Optional, Tuple
 
+from uuid import UUID
+
 from modules.business.domain.entities import (
     Business,
     BusinessDocument,
     BusinessUserMapping,
+    UploadSession,
+    UploadSlot,
 )
 from modules.user.domain.entity import User
 
@@ -77,11 +81,33 @@ class IBusinessDocumentRepository(ABC):
         pass
 
     @abstractmethod
-    async def list_drafts_for_user(self, user_id: int) -> List[BusinessDocument]:
+    async def get_by_user_business(
+        self, user_id: int, business_id: int
+    ) -> Optional[BusinessDocument]:
         pass
 
     @abstractmethod
-    async def delete_draft(
-        self, document_id: int, user_id: int
-    ) -> BusinessDocument:
+    async def list_by_storage_public_ids_for_user(
+        self, user_id: int, storage_public_ids: List[str]
+    ) -> List[BusinessDocument]:
+        pass
+
+
+class IUploadSessionRepository(ABC):
+    @abstractmethod
+    async def add_session(
+        self, session: UploadSession, slots: List[UploadSlot]
+    ) -> UploadSession:
+        pass
+
+    @abstractmethod
+    async def get_session_for_user(
+        self, upload_id: UUID, user_id: int
+    ) -> Optional[UploadSession]:
+        pass
+
+    @abstractmethod
+    async def get_slot_with_session(
+        self, slot_id: UUID
+    ) -> Optional[tuple[UploadSlot, UploadSession]]:
         pass

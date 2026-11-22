@@ -1,7 +1,10 @@
 from modules.user.domain.entity import User  # noqa: F401
 from modules.business.domain.entities import (  # noqa: F401
     Business,
+    BusinessDocument,
     BusinessUserMapping,
+    UploadSession,
+    UploadSlot,
 )
 from modules.invitation.domain.entity import BusinessInvite  # noqa: F401
 from modules.notification.domain.entity import Notification  # noqa: F401

@@ -1,12 +1,15 @@
 from contextlib import asynccontextmanager
 
-from fastapi import FastAPI
+from fastapi import FastAPI, Depends
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.security import HTTPBearer
 from sqlalchemy.exc import SQLAlchemyError
 
 from config.database import db, init_db
 from config.redis import close_redis, init_redis
+from modules.business.presentation.files_router import router as files_router
 from modules.business.presentation.router import router as business_router
+from modules.business.presentation.upload_router import router as upload_router
 from modules.invitation.presentation.router import router as invitation_router
 from modules.user.presentation.router import router as user_router
 from modules.webhook.presentation.router import router as webhook_router
@@ -21,6 +24,8 @@ from shared.middleware.auth import ClerkAuthMiddleware
 from config.taskiq import broker
 logger = get_scaly_logger(name=__name__)
 
+
+bearer_scheme = HTTPBearer(auto_error=False)
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -61,8 +66,10 @@ def create_app() -> FastAPI:
         allow_headers=["*"],
     )
 
-    app.include_router(user_router)
-    app.include_router(business_router)
+    app.include_router(user_router, dependencies=[Depends(bearer_scheme)])
+    app.include_router(upload_router, dependencies=[Depends(bearer_scheme)])
+    app.include_router(business_router, dependencies=[Depends(bearer_scheme)])
+    app.include_router(files_router)
     app.include_router(invitation_router)
     app.include_router(webhook_router)
 
