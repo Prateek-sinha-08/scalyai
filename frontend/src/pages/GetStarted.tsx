@@ -16,16 +16,10 @@ function PhaseRouter() {
 
 export default function GetStarted() {
   return (
-    <main className="relative flex min-h-svh items-center justify-center px-4 py-10 sm:py-16">
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,theme(colors.muted)_0%,transparent_55%)]"
-      />
-      <div className="w-full max-w-xl">
+    <div className="w-full max-w-xl">
         <GetStartedProvider>
           <PhaseRouter />
         </GetStartedProvider>
-      </div>
-    </main>
+    </div>
   )
 }

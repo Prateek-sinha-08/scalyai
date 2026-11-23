@@ -1,9 +1,10 @@
 import axios from "axios";
-import { API_URL } from "@/constants";
+import { FASTAPI_URL } from "@/constants";
 
+/** Axios client for the ScalyAI FastAPI backend (Clerk JWT attached when signed in). */
 const apiClient = axios.create({
-    baseURL: API_URL,
-})
+  baseURL: FASTAPI_URL,
+});
 
 let tokenGetter: (() => Promise<string | null>) | null = null;
 

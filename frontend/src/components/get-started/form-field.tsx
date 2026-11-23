@@ -13,6 +13,7 @@ type FieldProps = {
   id: string
   value: string | null
   onChange: (value: string) => void
+  onBlur?: (value: string) => void
   placeholder?: string
   multiline?: boolean
   extracted?: boolean
@@ -23,6 +24,7 @@ function FormField({
   id,
   value,
   onChange,
+  onBlur,
   placeholder,
   multiline = false,
   extracted,
@@ -44,6 +46,7 @@ function FormField({
         id={id}
         value={value ?? ""}
         onChange={(e) => onChange(e.target.value)}
+        onBlur={(e) => onBlur?.(e.target.value)}
         placeholder={placeholder}
         className={cn(multiline && "min-h-20")}
       />

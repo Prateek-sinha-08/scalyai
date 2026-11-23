@@ -1,4 +1,4 @@
-import { apiClient } from "@/api/client";
+import { langgraphClient } from "@/api/langgraph-client";
 
 export async function extract(doc_link: string){
 
@@ -13,7 +13,7 @@ export async function extract(doc_link: string){
     }
 
     try {
-        const res = await apiClient.post("/runs/wait", {
+        const res = await langgraphClient.post("/runs/wait", {
             "assistant_id": "extractor",
             "input": initialState
         });

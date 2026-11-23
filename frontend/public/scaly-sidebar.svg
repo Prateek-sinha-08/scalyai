@@ -1,0 +1,92 @@
+<svg width="100%" viewBox="80 48 240 325" role="img" xmlns="http://www.w3.org/2000/svg">
+  <title>ScalyAI Funnel Icon</title>
+
+  <!-- Brown background ring -->
+  <circle cx="200" cy="210" r="85" fill="#808080"/>
+
+  <!-- Gradient green background -->
+  <circle cx="200" cy="210" r="80" fill="url(#greenBgGradient)"/>
+
+  <defs>
+    <radialGradient id="greenBgGradient" cx="35%" cy="25%" r="75%">
+      <stop offset="0%" stop-color="#26745B"/>
+      <stop offset="60%" stop-color="#1A493A"/>
+      <stop offset="100%" stop-color="#0B2921"/>
+    </radialGradient>
+
+    <linearGradient id="funnelGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1D9E75"/>
+      <stop offset="100%" stop-color="#0F6E56"/>
+    </linearGradient>
+    <linearGradient id="sg1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#5DCAA5"/>
+      <stop offset="100%" stop-color="#1D9E75"/>
+    </linearGradient>
+    <linearGradient id="sg2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1D9E75"/>
+      <stop offset="100%" stop-color="#0F6E56"/>
+    </linearGradient>
+    <linearGradient id="sg3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#085041"/>
+      <stop offset="100%" stop-color="#04342C"/>
+    </linearGradient>
+    <linearGradient id="dotGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#9FE1CB"/>
+      <stop offset="100%" stop-color="#5DCAA5"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Input lead dots above funnel -->
+  <circle cx="122" cy="66" r="5" fill="#5DCAA5" fill-opacity="0.8" stroke="#9FE1CB" stroke-width="0.6"/>
+  <circle cx="155" cy="55" r="3.5" fill="#5DCAA5" fill-opacity="0.6"/>
+  <circle cx="186" cy="63" r="4" fill="#5DCAA5" fill-opacity="0.7" stroke="#9FE1CB" stroke-width="0.5"/>
+  <circle cx="218" cy="52" r="4.5" fill="#5DCAA5" fill-opacity="0.75" stroke="#9FE1CB" stroke-width="0.5"/>
+  <circle cx="250" cy="62" r="3.5" fill="#5DCAA5" fill-opacity="0.6"/>
+  <circle cx="280" cy="57" r="5" fill="#5DCAA5" fill-opacity="0.8" stroke="#9FE1CB" stroke-width="0.6"/>
+
+  <!-- Row 1 — 5 scales, widest -->
+  <path d="M95,115 Q95,88 120,88 Q145,88 145,115 Q145,133 120,146 Q95,133 95,115 Z" fill="url(#sg1)" stroke="#9FE1CB" stroke-width="0.6" stroke-opacity="0.5"/>
+  <path d="M127,115 Q127,88 152,88 Q177,88 177,115 Q177,133 152,146 Q127,133 127,115 Z" fill="url(#sg1)" stroke="#9FE1CB" stroke-width="0.6" stroke-opacity="0.5"/>
+  <path d="M159,115 Q159,88 184,88 Q209,88 209,115 Q209,133 184,146 Q159,133 159,115 Z" fill="url(#sg2)" stroke="#5DCAA5" stroke-width="0.6" stroke-opacity="0.5"/>
+  <path d="M191,115 Q191,88 216,88 Q241,88 241,115 Q241,133 216,146 Q191,133 191,115 Z" fill="url(#sg2)" stroke="#5DCAA5" stroke-width="0.6" stroke-opacity="0.5"/>
+  <path d="M223,115 Q223,88 248,88 Q273,88 273,115 Q273,133 248,146 Q223,133 223,115 Z" fill="url(#sg1)" stroke="#9FE1CB" stroke-width="0.6" stroke-opacity="0.5"/>
+  <path d="M255,115 Q255,88 280,88 Q305,88 305,115 Q305,133 280,146 Q255,133 255,115 Z" fill="url(#sg2)" stroke="#5DCAA5" stroke-width="0.6" stroke-opacity="0.5"/>
+
+  <!-- Row 2 — offset, slightly narrower -->
+  <path d="M112,143 Q112,116 137,116 Q162,116 162,143 Q162,161 137,174 Q112,161 112,143 Z" fill="url(#sg2)" stroke="#5DCAA5" stroke-width="0.6" stroke-opacity="0.5"/>
+  <path d="M144,143 Q144,116 169,116 Q194,116 194,143 Q194,161 169,174 Q144,161 144,143 Z" fill="url(#sg1)" stroke="#9FE1CB" stroke-width="0.6" stroke-opacity="0.5"/>
+  <path d="M176,143 Q176,116 201,116 Q226,116 226,143 Q226,161 201,174 Q176,161 176,143 Z" fill="url(#sg2)" stroke="#5DCAA5" stroke-width="0.6" stroke-opacity="0.5"/>
+  <path d="M208,143 Q208,116 233,116 Q258,116 258,143 Q258,161 233,174 Q208,161 208,143 Z" fill="url(#sg1)" stroke="#9FE1CB" stroke-width="0.6" stroke-opacity="0.5"/>
+  <path d="M240,143 Q240,116 265,116 Q290,116 290,143 Q290,161 265,174 Q240,161 240,143 Z" fill="url(#sg2)" stroke="#5DCAA5" stroke-width="0.6" stroke-opacity="0.5"/>
+
+  <!-- Row 3 — narrower -->
+  <path d="M130,171 Q130,144 155,144 Q180,144 180,171 Q180,189 155,202 Q130,189 130,171 Z" fill="url(#sg3)" stroke="#1D9E75" stroke-width="0.6" stroke-opacity="0.6"/>
+  <path d="M162,171 Q162,144 187,144 Q212,144 212,171 Q212,189 187,202 Q162,189 162,171 Z" fill="url(#sg2)" stroke="#5DCAA5" stroke-width="0.6" stroke-opacity="0.5"/>
+  <path d="M194,171 Q194,144 219,144 Q244,144 244,171 Q244,189 219,202 Q194,189 194,171 Z" fill="url(#sg3)" stroke="#1D9E75" stroke-width="0.6" stroke-opacity="0.6"/>
+  <path d="M226,171 Q226,144 251,144 Q276,144 276,171 Q276,189 251,202 Q226,189 226,171 Z" fill="url(#sg2)" stroke="#5DCAA5" stroke-width="0.6" stroke-opacity="0.5"/>
+
+  <!-- Row 4 — 3 scales, centered at x=200 -->
+  <path d="M143,199 Q143,172 168,172 Q193,172 193,199 Q193,217 168,230 Q143,217 143,199 Z" fill="url(#sg3)" stroke="#0F6E56" stroke-width="0.6" stroke-opacity="0.7"/>
+  <path d="M175,199 Q175,172 200,172 Q225,172 225,199 Q225,217 200,230 Q175,217 175,199 Z" fill="url(#sg2)" stroke="#1D9E75" stroke-width="0.6" stroke-opacity="0.6"/>
+  <path d="M207,199 Q207,172 232,172 Q257,172 257,199 Q257,217 232,230 Q207,217 207,199 Z" fill="url(#sg3)" stroke="#0F6E56" stroke-width="0.6" stroke-opacity="0.7"/>
+
+  <!-- Row 5 — 2 scales, centered at x=200 -->
+  <path d="M163,227 Q163,200 188,200 Q213,200 213,227 Q213,245 188,258 Q163,245 163,227 Z" fill="url(#sg1)" stroke="#9FE1CB" stroke-width="0.8" stroke-opacity="0.7"/>
+  <path d="M187,227 Q187,200 212,200 Q237,200 237,227 Q237,245 212,258 Q187,245 187,227 Z" fill="url(#sg2)" stroke="#5DCAA5" stroke-width="0.8" stroke-opacity="0.6"/>
+
+  <!-- Row 6 — 1 scale, perfectly centered at x=200 -->
+  <path d="M175,255 Q175,228 200,228 Q225,228 225,255 Q225,273 200,286 Q175,273 175,255 Z" fill="url(#sg1)" stroke="#9FE1CB" stroke-width="0.9" stroke-opacity="0.8"/>
+
+  <!-- Neck pipe -->
+  <rect x="188" y="280" width="24" height="34" rx="4" fill="url(#funnelGrad)" stroke="#5DCAA5" stroke-width="0.8" stroke-opacity="0.7"/>
+  <rect x="192" y="282" width="7" height="30" rx="2" fill="#9FE1CB" fill-opacity="0.18"/>
+
+  <!-- Output lead dot -->
+  <circle cx="200" cy="328" r="10" fill="url(#dotGrad)" stroke="#E1F5EE" stroke-width="1"/>
+  <circle cx="200" cy="328" r="5" fill="#E1F5EE" fill-opacity="0.75"/>
+
+  <!-- Trailing output stream -->
+  <circle cx="200" cy="344" r="5" fill="#1D9E75" fill-opacity="0.65"/>
+  <circle cx="200" cy="356" r="3" fill="#1D9E75" fill-opacity="0.4"/>
+  <circle cx="200" cy="365" r="1.5" fill="#1D9E75" fill-opacity="0.22"/>
+</svg>

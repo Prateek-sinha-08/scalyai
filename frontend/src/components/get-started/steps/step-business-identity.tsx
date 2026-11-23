@@ -1,18 +1,38 @@
 "use client"
 
+import { patchBusiness } from "@/api/business"
+import { useWorkspace } from "@/features/workspace/logic/workspace-context"
+import { toast } from "sonner"
+
 import { useGetStarted } from "../get-started-context"
 import { FormField, TagField } from "../form-field"
 import { AdvancedSection } from "../advanced-section"
 
 function StepBusinessIdentity() {
   const { data, updateSection } = useGetStarted()
-
-  console.log("DATA", JSON.stringify(data, null, 2))
+  const { activeBusinessId, applyBusinessDetails } = useWorkspace()
 
   const s = data?.business_identity
 
   function update(patch: Partial<NonNullable<typeof s>>) {
     updateSection("business_identity", patch)
+  }
+
+  async function syncTenantFromBlur(field: "name" | "industry", value: string) {
+    if (activeBusinessId == null) return
+    const trimmed = value.trim()
+    if (!trimmed) return
+
+    try {
+      const updated = await patchBusiness(activeBusinessId, {
+        [field]: trimmed,
+      })
+      applyBusinessDetails(updated)
+    } catch (err) {
+      const message =
+        err instanceof Error ? err.message : "Failed to update business"
+      toast.error(message)
+    }
   }
 
   return (
@@ -22,6 +42,7 @@ function StepBusinessIdentity() {
         id="business_name"
         value={s?.business_name ?? null}
         onChange={(v) => update({ business_name: v })}
+        onBlur={(v) => void syncTenantFromBlur("name", v)}
         placeholder="Acme Corp"
       />
       <FormField
@@ -29,6 +50,7 @@ function StepBusinessIdentity() {
         id="industry"
         value={s?.industry ?? null}
         onChange={(v) => update({ industry: v })}
+        onBlur={(v) => void syncTenantFromBlur("industry", v)}
         placeholder="e.g. Third-party logistics (3PL)"
       />
       <TagField

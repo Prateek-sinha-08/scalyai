@@ -28,8 +28,8 @@
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.145 0 0);
 
-  /* -- Primary action color (buttons, links) */
-  --primary: oklch(0.205 0 0);
+  /* -- Primary action: ScalyAI green (#1D9E75) */
+  --primary: oklch(0.62 0.13 165);
   --primary-foreground: oklch(0.985 0 0);
 
   /* -- Secondary surfaces (secondary buttons, subtle areas) */
@@ -51,8 +51,8 @@
   --border: oklch(0.922 0 0);
   /* -- Input field borders specifically */
   --input: oklch(0.922 0 0);
-  /* -- Focus ring color */
-  --ring: oklch(0.708 0 0);
+  /* -- Focus ring: matches primary green */
+  --ring: oklch(0.62 0.13 165);
 
   /* -- Chart colors (for data visualization) */
   --chart-1: oklch(0.87 0 0);
@@ -67,7 +67,7 @@
   /* -- Sidebar-specific colors (for app sidebar/nav) */
   --sidebar: oklch(0.985 0 0);
   --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
+  --sidebar-primary: oklch(0.62 0.13 165);
   --sidebar-primary-foreground: oklch(0.985 0 0);
   --sidebar-accent: oklch(0.97 0 0);
   --sidebar-accent-foreground: oklch(0.205 0 0);
@@ -79,8 +79,8 @@
      Use these for status badges, pipeline states, custom UI
      -------------------------------------------------------- */
 
-  /* -- Success: positive states ("Interested", "Replied", completed) */
-  --success: #10B981;
+  /* -- Success: same brand green as primary */
+  --success: #1D9E75;
   --success-foreground: #FFFFFF;
 
   /* -- Warning: pending states ("Contacted", needs attention) */
@@ -92,101 +92,75 @@
 }
 
 /* ============================================================
-   DARK MODE — ScalyAi Production Theme
+   DARK MODE — ScalyAI brand (black + green)
    ============================================================
-   Philosophy: muted dark palette that feels premium and
-   business-grade. Inspired by Linear, Stripe, Notion.
-   - Deep blue-black background (#0B0F14)
-   - Layered surfaces (#111827)
-   - Indigo accent (#6366F1) — builds trust
-   - High readability for data-dense dashboards
+   - Near-black surfaces (#0a0f0d / #111816)
+   - Muted gray text (#E5E7EB / #9CA3AF)
+   - Green accent (#1D9E75, hover #0F6E56)
    ============================================================ */
 .dark {
-  /* -- Page background: deep blue-black (premium dark feel)
-     Change this to make the entire app lighter/darker */
-  --background: oklch(0.085 0.01 260);     /* #0B0F14 */
+  /* -- Page background: near-black with a hint of green */
+  --background: oklch(0.08 0.012 155);       /* ~#0a0f0d */
 
-  /* -- Main body text: light gray (high readability on dark bg)
-     This is used by all body text, headings, table content */
-  --foreground: oklch(0.918 0.005 265);     /* #E5E7EB */
+  /* -- Main body text */
+  --foreground: oklch(0.918 0.005 155);      /* #E5E7EB */
 
-  /* -- Card / panel surface: slightly lighter than background
-     Creates visual layering — cards "float" above the bg
-     Used by: Card, Dialog, Sheet, any panel component */
-  --card: oklch(0.155 0.015 260);           /* #111827 */
-  --card-foreground: oklch(0.918 0.005 265); /* same as foreground */
+  /* -- Card / panel surface */
+  --card: oklch(0.14 0.014 155);            /* ~#111816 */
+  --card-foreground: oklch(0.918 0.005 155);
 
-  /* -- Popover / dropdown surface: matches card for consistency */
-  --popover: oklch(0.155 0.015 260);        /* #111827 */
-  --popover-foreground: oklch(0.918 0.005 265);
+  /* -- Popover / dropdown */
+  --popover: oklch(0.14 0.014 155);
+  --popover-foreground: oklch(0.918 0.005 155);
 
-  /* -- Primary action: Indigo (#6366F1)
-     THE main brand color. Used by: primary Button, links,
-     focus rings, active indicators. Indigo conveys trust
-     and professionalism (used by Stripe, Linear, Vercel) */
-  --primary: oklch(0.55 0.25 265);          /* #6366F1 */
-  --primary-foreground: oklch(1 0 0);       /* pure white text on indigo */
+  /* -- Primary: brand green (#1D9E75) — buttons, links, focus */
+  --primary: oklch(0.62 0.13 165);
+  --primary-foreground: oklch(0.99 0 0);
 
-  /* -- Secondary: subtle dark surface for secondary buttons,
-     toggle groups, de-emphasized interactive elements */
-  --secondary: oklch(0.215 0.015 260);      /* #1F2937 */
-  --secondary-foreground: oklch(0.7 0.005 265); /* #9CA3AF (muted gray) */
+  /* -- Secondary surfaces */
+  --secondary: oklch(0.2 0.014 155);        /* ~#1a221f */
+  --secondary-foreground: oklch(0.7 0.008 155);
 
-  /* -- Muted: de-emphasized text and disabled areas
-     Used for: helper text, timestamps, placeholders */
-  --muted: oklch(0.215 0.015 260);          /* #1F2937 */
-  --muted-foreground: oklch(0.7 0.005 265); /* #9CA3AF */
+  /* -- Muted text and areas */
+  --muted: oklch(0.2 0.014 155);
+  --muted-foreground: oklch(0.7 0.008 155);
 
-  /* -- Accent: hover/active highlights on interactive elements
-     Same as secondary so hover states blend smoothly */
-  --accent: oklch(0.215 0.015 260);         /* #1F2937 */
-  --accent-foreground: oklch(0.918 0.005 265); /* #E5E7EB */
+  /* -- Accent: hover highlights */
+  --accent: oklch(0.2 0.014 155);
+  --accent-foreground: oklch(0.918 0.005 155);
 
-  /* -- Destructive: danger actions (delete, pause, errors)
-     Red that's visible but not alarming on dark bg */
-  --destructive: oklch(0.63 0.24 25);       /* #EF4444 */
+  /* -- Destructive (only non-brand accent color) */
+  --destructive: oklch(0.63 0.24 25);
 
-  /* -- Borders: subtle dividers between sections
-     Used by: Card borders, Table dividers, Input outlines
-     Should be barely visible — just enough to create structure */
-  --border: oklch(0.25 0.015 260);          /* #1F2937 */
+  /* -- Borders */
+  --border: oklch(0.24 0.014 155);
+  --input: oklch(0.24 0.014 155);
 
-  /* -- Input borders: same as border for dark mode consistency */
-  --input: oklch(0.25 0.015 260);           /* #1F2937 */
+  /* -- Focus ring: brand green */
+  --ring: oklch(0.62 0.13 165);
 
-  /* -- Focus ring: indigo to match primary
-     Shows on keyboard focus for accessibility */
-  --ring: oklch(0.55 0.25 265);             /* #6366F1 */
+  /* -- Charts: green luminance steps (minimal palette) */
+  --chart-1: oklch(0.72 0.11 165);
+  --chart-2: oklch(0.62 0.13 165);
+  --chart-3: oklch(0.52 0.11 165);
+  --chart-4: oklch(0.42 0.09 165);
+  --chart-5: oklch(0.32 0.07 165);
 
-  /* -- Chart colors: grayscale gradient for data visualization
-     Lightest to darkest, for bar charts / line charts */
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
-
-  /* -- Sidebar: slightly lighter than background
-     for the navigation sidebar panel */
-  --sidebar: oklch(0.12 0.015 260);          /* between bg and card */
-  --sidebar-foreground: oklch(0.918 0.005 265);
-  /* -- Sidebar active item: indigo (matches primary) */
-  --sidebar-primary: oklch(0.55 0.25 265);   /* #6366F1 */
-  --sidebar-primary-foreground: oklch(1 0 0);
-  /* -- Sidebar hover: subtle highlight */
-  --sidebar-accent: oklch(0.215 0.015 260);  /* #1F2937 */
-  --sidebar-accent-foreground: oklch(0.918 0.005 265);
-  --sidebar-border: oklch(0.25 0.015 260);   /* #1F2937 */
-  --sidebar-ring: oklch(0.55 0.25 265);
+  /* -- Sidebar */
+  --sidebar: oklch(0.1 0.012 155);
+  --sidebar-foreground: oklch(0.918 0.005 155);
+  --sidebar-primary: oklch(0.62 0.13 165);
+  --sidebar-primary-foreground: oklch(0.99 0 0);
+  --sidebar-accent: oklch(0.2 0.014 155);
+  --sidebar-accent-foreground: oklch(0.918 0.005 155);
+  --sidebar-border: oklch(0.24 0.014 155);
+  --sidebar-ring: oklch(0.62 0.13 165);
 
   /* --------------------------------------------------------
      ScalyAi EXTRA TOKENS — Dark Mode
      -------------------------------------------------------- */
 
-  /* -- Success: green for positive pipeline states
-     Use with: bg-success, text-success, bg-success/15
-     Examples: "Interested", "Replied", "Deal Won" badges */
-  --success: #10B981;
+  --success: #1D9E75;
   --success-foreground: #FFFFFF;
 
   /* -- Warning: amber for pending/attention states
@@ -198,7 +172,7 @@
   /* -- Surface hover: for row hover effects in tables, lists
      Slightly lighter than card bg so hovered rows stand out
      Use with: hover:bg-surface-hover */
-  --surface-hover: oklch(0.19 0.015 260);    /* #1a2234 */
+  --surface-hover: oklch(0.18 0.014 155);
 }
 
 /* ============================================================

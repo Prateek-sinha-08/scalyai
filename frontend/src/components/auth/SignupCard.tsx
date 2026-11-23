@@ -101,7 +101,7 @@ export function SignupCard({ onClickLogin }: SignupCardProps) {
   if (pendingVerification) {
     return (
       <div className="min-h-screen min-w-screen flex items-center justify-center bg-background relative">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(120,119,198,0.15),transparent_60%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(29,158,117,0.14),transparent_60%)]" />
 
         <Card className="w-full max-w-md relative backdrop-blur-xl bg-card/80 border border-border/50 shadow-2xl">
           <CardHeader className="space-y-2 text-center">
@@ -149,7 +149,7 @@ export function SignupCard({ onClickLogin }: SignupCardProps) {
 
   return (
     <div className="min-h-screen min-w-screen flex items-center justify-center bg-background relative">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(120,119,198,0.15),transparent_60%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(29,158,117,0.14),transparent_60%)]" />
 
       <Card className="w-full max-w-md relative backdrop-blur-xl bg-card/80 border border-border/50 shadow-2xl">
         <CardHeader className="space-y-2 text-center">

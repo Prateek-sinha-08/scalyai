@@ -3,6 +3,7 @@ import { useAuth } from "@clerk/react"
 import { Navigate, Outlet } from "react-router-dom"
 import { Loader2 } from "lucide-react"
 import { setTokenGetter } from "@/api/client"
+import { WorkspaceProvider } from "@/features/workspace/logic"
 
 export function ProtectedRoute() {
   const { isLoaded, isSignedIn, getToken } = useAuth()
@@ -23,5 +24,9 @@ export function ProtectedRoute() {
     return <Navigate to="/login" />
   }
 
-  return <Outlet />
+  return (
+    <WorkspaceProvider>
+      <Outlet />
+    </WorkspaceProvider>
+  )
 }

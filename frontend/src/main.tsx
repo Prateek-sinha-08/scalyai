@@ -4,6 +4,7 @@ import { RouterProvider } from "react-router-dom"
 import { ClerkProvider } from "@clerk/react"
 import { ThemeProvider } from "@/components/theme-provider"
 import { Toaster } from "@/components/ui/sonner"
+import { TooltipProvider } from "@/components/ui/tooltip"
 import { router } from "@/router"
 import "./index.css"
 
@@ -18,8 +19,10 @@ createRoot(document.getElementById("root")!).render(
     <ClerkProvider publishableKey={PUBLISHABLE_KEY} afterSignOutUrl="/"
 signInUrl="/login" signUpUrl="/signup" signInForceRedirectUrl="/">
       <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
-        <RouterProvider router={router} />
-        <Toaster />
+        <TooltipProvider delayDuration={0}>
+          <RouterProvider router={router} />
+          <Toaster />
+        </TooltipProvider>
       </ThemeProvider>
     </ClerkProvider>
   </StrictMode>,

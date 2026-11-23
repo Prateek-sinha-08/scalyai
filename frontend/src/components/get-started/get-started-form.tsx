@@ -2,6 +2,8 @@ import * as React from "react"
 import { ArrowRight, Loader2 } from "lucide-react"
 import { toast } from "sonner"
 
+import { uploadBusinessDocuments } from "@/api/upload"
+import { extract } from "@/api/extract"
 import { Button } from "@/components/ui/button"
 import {
   Card,
@@ -10,45 +12,64 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
+import { requireActiveBusinessId } from "@/features/upload/logic"
+import { useWorkspace } from "@/features/workspace/logic/workspace-context"
+import { createEmptyBusinessContext } from "@/types/business-context"
 
-import { StepUpload } from "./step-upload"
 import { useGetStarted } from "./get-started-context"
-import { uploadFile } from "@/api/upload"
-import { extract } from "@/api/extract"
+import { mergeBusinessContext } from "./merge-business-context"
+import { StepUpload } from "./step-upload"
 
 function GetStartedForm() {
-  const { setPhase, setData } = useGetStarted()
-  const [file, setFile] = React.useState<File | null>(null)
+  const { setPhase, setData, setUploadedDocuments } = useGetStarted()
+  const { activeBusinessId, status } = useWorkspace()
+  const [files, setFiles] = React.useState<File[]>([])
   const [uploading, setUploading] = React.useState(false)
 
-  async function handleUpload() {
-    if (!file) {
-      toast.warning("Please upload a file")
+  const workspaceLoading = status === "idle" || status === "loading"
+
+  async function handleContinue() {
+    if (files.length === 0) {
+      toast.warning("Please add at least one PDF")
       return
     }
 
     setUploading(true)
 
     try {
-      const uploadRes = await uploadFile(file)
+      const businessId = requireActiveBusinessId(activeBusinessId)
 
-      if (uploadRes.status !== 200) {
-        toast.error("Failed to upload file")
-        return
-      }
+      const uploadResult = await uploadBusinessDocuments(businessId, files)
+      setUploadedDocuments(uploadResult.documents)
 
-      toast.success("File uploaded successfully")
+      toast.success(
+        uploadResult.documents.length === 1
+          ? "File uploaded successfully"
+          : `${uploadResult.documents.length} files uploaded successfully`
+      )
       setPhase("extracting")
 
-      const extractRes = await extract(uploadRes.data.file_url)
-
-      if (extractRes) {
-        setData(extractRes?.business_context)
-        toast.success("Information extracted successfully")
-        setPhase("form")
+      let mergedContext = createEmptyBusinessContext()
+      for (const doc of uploadResult.documents) {
+        if (!doc.file_url) continue
+        const extractRes = await extract(doc.file_url)
+        if (extractRes?.business_context) {
+          mergedContext = mergeBusinessContext(
+            mergedContext,
+            extractRes.business_context
+          )
+        }
       }
-    } catch {
-      toast.error("Failed to process file. Please try again.")
+
+      setData(mergedContext)
+      toast.success("Information extracted successfully")
+      setPhase("form")
+    } catch (error) {
+      const message =
+        error instanceof Error
+          ? error.message
+          : "Failed to process file. Please try again."
+      toast.error(message)
       setPhase("upload")
     } finally {
       setUploading(false)
@@ -58,19 +79,27 @@ function GetStartedForm() {
   return (
     <Card className="overflow-hidden">
       <CardHeader>
-        <CardTitle>Upload your file</CardTitle>
+        <CardTitle>Upload your files</CardTitle>
         <CardDescription>
-          Drop your business document and we&apos;ll extract the details for
+          Add one or more business PDFs and we&apos;ll extract the details for
           you.
         </CardDescription>
       </CardHeader>
 
       <CardContent className="pt-1 pb-2">
-        <StepUpload file={file} onFileChange={setFile} />
+        <StepUpload files={files} onFilesChange={setFiles} />
       </CardContent>
 
       <div className="flex items-center justify-end border-t px-4 py-3">
-        <Button onClick={handleUpload} disabled={!file || uploading}>
+        <Button
+          onClick={() => void handleContinue()}
+          disabled={
+            files.length === 0 ||
+            uploading ||
+            workspaceLoading ||
+            activeBusinessId == null
+          }
+        >
           {uploading ? (
             <>
               <Loader2 data-icon="inline-start" className="animate-spin" />
