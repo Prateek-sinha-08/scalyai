@@ -72,6 +72,7 @@ class BusinessMemberService:
         )
         return [
             BusinessUserDTO(
+                id=business.id,
                 name=business.name,
                 description=business.description,
                 industry=business.industry,
