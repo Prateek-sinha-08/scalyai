@@ -57,7 +57,7 @@ class TransferUploadSlotResponseDTO(BaseModel):
 
 
 class BusinessUserDTO(BaseModel):
-    id = int = Field(..., description="ID of the business")
+    id: int = Field(..., description="ID of the business")
     name: str = Field(..., description="Name of the business")
     description: str = Field(..., description="Description of the business")
     industry: str = Field(..., description="Industry of the business")
